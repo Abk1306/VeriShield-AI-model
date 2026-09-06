@@ -1,0 +1,57 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Testing / tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated outputs
+outputs/
+
+# Generated datasets
+dataset/generated/
+
+# External datasets
+dataset/external/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Secrets / environment
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local test documents
+dataset/authentic/
+dataset/tampered/
+
+# Trained model artifacts
+verishield_ai/models/*.joblib
