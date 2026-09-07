@@ -3,6 +3,7 @@ import shutil
 import tempfile
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 
 from verishield_ai import analyze_document
 
@@ -11,6 +12,14 @@ app = FastAPI(
     title="VeriShield AI API",
     description="Digital document tampering detection API",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
