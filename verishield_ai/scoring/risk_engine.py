@@ -1,9 +1,13 @@
-﻿def calculate_risk_score(
+def calculate_risk_score(
     tampered_probability: float,
     evidence: list[dict],
 ) -> dict:
     """
     Calculate a transparent 0-100 tampering risk score.
+
+    The ML prediction is the primary signal. Forensic evidence
+    provides supporting risk rather than independently dominating
+    the final classification.
 
     This is a development scoring model. It is not a calibrated
     probability of forgery and must be validated against a larger,
@@ -17,28 +21,30 @@
     if not isinstance(evidence, list):
         raise ValueError("evidence must be a list.")
 
-    # Base contribution from the ML model.
-    score = tampered_probability * 70.0
+    # Primary contribution from the ML model.
+    score = tampered_probability * 85.0
 
-    # Additional contribution from independent forensic evidence.
+    # Forensic evidence provides supporting information.
+    # Multiple forensic signals are deliberately capped so that
+    # normal image processing/compression cannot overwhelm the
+    # model prediction.
     severity_weights = {
         "LOW": 0.0,
-        "MEDIUM": 8.0,
-        "HIGH": 15.0,
+        "MEDIUM": 3.0,
+        "HIGH": 5.0,
     }
 
     evidence_contribution = 0.0
 
     for item in evidence:
-        severity = item.get("severity", "LOW")
         evidence_contribution += severity_weights.get(
-            severity,
+            item.get("severity", "LOW"),
             0.0,
         )
 
     score += min(
         evidence_contribution,
-        30.0,
+        15.0,
     )
 
     score = max(
